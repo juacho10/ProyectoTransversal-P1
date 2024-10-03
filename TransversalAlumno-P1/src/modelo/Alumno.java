@@ -3,14 +3,22 @@ package modelo;
 import java.time.LocalDate;
 
 public class Alumno {
-    private int id;;
-
-
+    private int id;
     private String nombre;
     private String apellido;
     private String dni;
     private LocalDate fechaNacimiento;
 
+    public Alumno(int id, String nombre, String apellido, String dni, LocalDate fechaNacimiento) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    
+    
     public Alumno(String nombre, String apellido, String dni, LocalDate fechaNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;

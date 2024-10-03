@@ -57,4 +57,23 @@ public class AlumnoData {
         }
         return alumnos;
     }
+    public void borrar(int id) throws SQLException {
+        String sql = "DELETE FROM alumno WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
+    public void actualizar(Alumno alumno) throws SQLException {
+        String sql = "UPDATE alumno SET nombre = ?, apellido = ?, dni = ?, fecha_nacimiento = ? WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setString(1, alumno.getNombre());
+            statement.setString(2, alumno.getApellido());
+            statement.setString(3, alumno.getDni());
+            statement.setDate(4, java.sql.Date.valueOf(alumno.getFechaNacimiento()));
+            statement.setInt(5, alumno.getId());
+            statement.executeUpdate();
+        }
+    }
+    
 }
