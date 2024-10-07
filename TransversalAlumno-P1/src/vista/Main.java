@@ -29,7 +29,7 @@ public class Main {
         }
         
         // Se va a borrar el alumno de ID 1
-        alumnoData.borrar(1);
+        alumnoData.borrar(0);
         
         //Actualizamos el alumno de ID 4 (Michael Mayers) y le cambiamos el apellido
         Alumno alumnoActualizado = new Alumno(4, "Michael", "Jackson", "46626729", LocalDate.of(1989,3, 25));
