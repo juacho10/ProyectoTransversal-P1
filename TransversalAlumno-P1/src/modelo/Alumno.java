@@ -26,6 +26,11 @@ public class Alumno {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public Alumno() {
+    }
+    
+    
+
     // Getters y setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

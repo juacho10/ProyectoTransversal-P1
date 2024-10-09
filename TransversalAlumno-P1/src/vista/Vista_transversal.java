@@ -4,17 +4,26 @@
  */
 package vista;
 
+import conexion.conexion;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import modelo.Alumno;
+import persistencia.AlumnoData;
 
 /**
  *
  * @author Lenovo
  */
 public class Vista_transversal extends javax.swing.JFrame {
+    
+    conexion conexion = new conexion();
+    AlumnoData alumnoData = new AlumnoData(conexion);
+    List<Alumno> alumnos = alumnoData.obtenerAlumnos();
     public static DefaultTableModel modelo = new DefaultTableModel();
    
     public Vista_transversal() {
         initComponents();
+        
     }
 
     /**
@@ -97,7 +106,7 @@ public class Vista_transversal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMalumnoActionPerformed
 
     private void jMCargaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCargaAlumnoActionPerformed
-        Vista_Alumno vistaalumno = new Vista_Alumno ();
+        Vista_Alumno vistaalumno = new Vista_Alumno (alumnos);
             escritorio.add(vistaalumno);
             vistaalumno.setVisible(true);
     }//GEN-LAST:event_jMCargaAlumnoActionPerformed
@@ -106,8 +115,6 @@ public class Vista_transversal extends javax.swing.JFrame {
             Vista_Materia vistamateria = new Vista_Materia ();
             escritorio.add(vistamateria);
             vistamateria.setVisible(true);
-        
-        
     }//GEN-LAST:event_jMCargaMateriaActionPerformed
 
     /**
@@ -153,4 +160,7 @@ public class Vista_transversal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMmateria;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
