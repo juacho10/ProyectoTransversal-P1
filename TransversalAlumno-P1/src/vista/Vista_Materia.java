@@ -4,19 +4,59 @@
  */
 package vista;
 
+import conexion.conexion;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lenovo
  */
 public class Vista_Materia extends javax.swing.JInternalFrame {
-
+    conexion con1 = new conexion();
+    Connection conet;
+    DefaultTableModel modelo;
+    Statement st;
+    ResultSet rs;
+    int idc;
     /**
      * Creates new form Vista_Materia
      */
     public Vista_Materia() {
         initComponents();
+        conectarBaseDeDatos();
+        inicializarModelo();
+        consultar();
     }
+    
+    private void conectarBaseDeDatos() {
+        String url = "jdbc:mariadb://127.0.0.1:3306/transversalDB";
+        String user = "root";
+        String password = "";
 
+        try {
+            conet = DriverManager.getConnection(url, user, password);
+            System.out.println("Conexión a la base de datos exitosa!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
+        }
+    }
+        private void inicializarModelo() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Fecha de Nacimiento");
+        jTtablaMateria.setModel(modelo);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,7 +142,24 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
     private void jBbajaLogicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaLogicaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBbajaLogicaActionPerformed
-
+    
+    void consultar() {
+        String sql = "SELECT * FROM materia";
+        try {
+            st = conet.createStatement();
+            rs = st.executeQuery(sql);
+            Object[] alumno = new Object[2];
+            modelo.setRowCount(0); // Limpiar la tabla
+            while (rs.next()) {
+                alumno[0] = rs.getInt("id_materia");
+                alumno[1] = rs.getString("nombreMateria");
+                modelo.addRow(alumno);
+            }
+            jTtablaMateria.setModel(modelo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBactualizar;
