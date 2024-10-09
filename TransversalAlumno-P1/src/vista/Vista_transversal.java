@@ -106,7 +106,7 @@ public class Vista_transversal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMalumnoActionPerformed
 
     private void jMCargaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCargaAlumnoActionPerformed
-        Vista_Alumno vistaalumno = new Vista_Alumno (alumnos);
+        Vista_Alumno vistaalumno = new Vista_Alumno ();
             escritorio.add(vistaalumno);
             vistaalumno.setVisible(true);
     }//GEN-LAST:event_jMCargaAlumnoActionPerformed

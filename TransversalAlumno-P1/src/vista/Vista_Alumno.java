@@ -5,7 +5,13 @@
 package vista;
 
 import conexion.conexion;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Alumno;
 import persistencia.AlumnoData;
@@ -16,14 +22,46 @@ import static vista.Vista_transversal.modelo;
  * @author Lenovo
  */
 public class Vista_Alumno extends javax.swing.JInternalFrame {
-    conexion conexion = new conexion();
-    AlumnoData alumnoData = new AlumnoData(conexion);
+    conexion con1 = new conexion();
+    Connection conet;
+    DefaultTableModel modelo;
+    Statement st;
+    ResultSet rs;
+    int idc;
 
     /**
      * Creates new form Vista_Alumno
      */
-    public Vista_Alumno(List<Alumno> alumnos) {
+    
+    public Vista_Alumno() {
         initComponents();
+        conectarBaseDeDatos();
+        inicializarModelo();
+        consultar();
+        
+        
+    }
+        private void conectarBaseDeDatos() {
+        String url = "jdbc:mariadb://127.0.0.1:3306/transversalDB";
+        String user = "root";
+        String password = "";
+
+        try {
+            conet = DriverManager.getConnection(url, user, password);
+            System.out.println("Conexión a la base de datos exitosa!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
+        }
+    }
+        private void inicializarModelo() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Fecha de Nacimiento");
+        jTtablaAlumnos.setModel(modelo);
     }
 
     /**
@@ -251,7 +289,28 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFDniActionPerformed
 
-
+    void consultar() {
+        String sql = "SELECT * FROM alumno";
+        try {
+            st = conet.createStatement();
+            rs = st.executeQuery(sql);
+            Object[] alumno = new Object[5];
+            modelo.setRowCount(0); // Limpiar la tabla
+            while (rs.next()) {
+                alumno[0] = rs.getInt("id");
+                alumno[1] = rs.getString("nombre");
+                alumno[2] = rs.getString("apellido");
+                alumno[3] = rs.getString("dni");
+                alumno[4] = rs.getDate("fecha_nacimiento").toLocalDate();
+                modelo.addRow(alumno);
+            }
+            jTtablaAlumnos.setModel(modelo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBActualizar;
     private javax.swing.JButton jBBajaLogica;
@@ -273,9 +332,9 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
      
    
  
-private void agregarAlumnoTabla(Alumno Alumno){
+/*private void agregarAlumnoTabla(Alumno Alumno){
         modelo.addRow(new Object[]{alumnoData.obtenerAlumnos()});
-    }
+    } */
 
 
 

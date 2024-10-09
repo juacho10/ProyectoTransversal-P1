@@ -23,7 +23,9 @@ public class Main {
 
         
          //Mostrar todos los alumnos
-        List<Alumno> alumnos = alumnoData.obtenerAlumnos();
+         Alumno nuevoAlumno = new Alumno("Juan", "Molina", "34485532", LocalDate.of(1989, 3, 20));
+        alumnoData.agregarAlumno(nuevoAlumno);
+         List<Alumno> alumnos = alumnoData.obtenerAlumnos();
         for (Alumno a : alumnos) {
             System.out.println(a);
         }
