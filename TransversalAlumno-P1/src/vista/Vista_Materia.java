@@ -36,6 +36,7 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
+        setPreferredSize(new java.awt.Dimension(570, 300));
 
         jTtablaMateria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,29 +72,28 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jBinsertar)
-                        .addGap(39, 39, 39)
+                        .addGap(59, 59, 59)
                         .addComponent(jBactualizar)
                         .addGap(38, 38, 38)
                         .addComponent(jBborrar)
-                        .addGap(32, 32, 32)
-                        .addComponent(jBbajaLogica)
-                        .addGap(17, 17, 17)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGap(53, 53, 53)
+                        .addComponent(jBbajaLogica)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBinsertar)
                     .addComponent(jBactualizar)
                     .addComponent(jBborrar)
                     .addComponent(jBbajaLogica))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
