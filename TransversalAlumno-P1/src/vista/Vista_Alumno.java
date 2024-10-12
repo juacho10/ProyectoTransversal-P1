@@ -10,8 +10,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+
+import java.time.ZoneId;
+import java.util.Date;
+
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Alumno;
 import persistencia.AlumnoData;
@@ -27,7 +33,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
     Statement st;
     ResultSet rs;
-    int idc;
+    int idA;
+    AlumnoData alumnoData = new AlumnoData(con1);
 
     /**
      * Creates new form Vista_Alumno
@@ -87,7 +94,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jTFNombre = new javax.swing.JTextField();
         jTFApellido = new javax.swing.JTextField();
         jTFDni = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDFechaNac = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
 
         jToolBar1.setRollover(true);
@@ -154,6 +161,11 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
+        jTtablaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTtablaAlumnosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTtablaAlumnos);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -183,6 +195,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             }
         });
 
+        jDFechaNac.setDateFormatString("y-MM-dd");
+
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel4.setText("Fecha:");
 
@@ -206,7 +220,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                             .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jDFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -242,7 +256,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jDFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(42, 42, 42))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -262,11 +276,13 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInsertarActionPerformed
-        // TODO add your handling code here:
+        Agregar1();
+        consultar();
     }//GEN-LAST:event_jBInsertarActionPerformed
 
     private void jBBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBorrarActionPerformed
-        // TODO add your handling code here:
+        Borrar();
+        consultar();
     }//GEN-LAST:event_jBBorrarActionPerformed
 
     private void jBBajaLogicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBajaLogicaActionPerformed
@@ -274,7 +290,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBBajaLogicaActionPerformed
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
-        // TODO add your handling code here:
+        Actualizar();
+        consultar();
     }//GEN-LAST:event_jBActualizarActionPerformed
 
     private void jTFNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNombreActionPerformed
@@ -289,6 +306,27 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFDniActionPerformed
 
+    private void jTtablaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTtablaAlumnosMouseClicked
+        int fila = jTtablaAlumnos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "No se selecionó una fila");
+        } else{
+            idA = Integer.parseInt((String)jTtablaAlumnos.getValueAt(fila,0) .toString());
+            String nombre = (String) jTtablaAlumnos.getValueAt(fila,1);
+            String apellido = (String) jTtablaAlumnos.getValueAt(fila,2);
+            int dni = Integer.parseInt((String)jTtablaAlumnos.getValueAt(fila,3) .toString());
+            LocalDate fechaNacimiento = LocalDate.parse(jTtablaAlumnos.getValueAt(fila, 4).toString());
+            
+            jTFNombre.setText(nombre);
+            jTFApellido.setText(apellido);
+            jTFDni.setText("" + dni);
+            
+            Date date = Date.from(fechaNacimiento.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            jDFechaNac.setDate(date);
+            
+        }
+    }//GEN-LAST:event_jTtablaAlumnosMouseClicked
+    
     void consultar() {
         String sql = "SELECT * FROM alumno";
         try {
@@ -309,14 +347,147 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
     }
+    void Agregar1(){
+    String nombre = jTFNombre.getText();
+    String apellido = jTFApellido.getText();
+    String dni = jTFDni.getText();
+    Date fechaNacimientoDate = jDFechaNac.getDate();
+
+    try {
+        if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+            // Convertir Date a LocalDate
+            LocalDate fechaNacimiento = fechaNacimientoDate.toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Obtener el ID del alumno seleccionado en la tabla
+            int fila = jTtablaAlumnos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
+                return;
+            }
+            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+
+ 
+            Alumno crearAlumno = new Alumno(id, nombre, apellido, dni, fechaNacimiento);
+            alumnoData.agregarAlumno(crearAlumno);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Alumno agregado correctamente");
+
+
+        }
+        } catch(Exception e){
+            e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al agregar el alumno: " + e.getMessage());
+    } 
+    }
+    /*void Agregar(){
+        String nombre = jTFNombre.getText();
+        String apellido = jTFApellido.getText();
+        String dni = jTFDni.getText();
+        String fecha = ((JTextField)jDFechaNac.getDateEditor().getUiComponent()).getText();
+        System.out.println(fecha);
+        
+        try{
+            if(nombre.equals("") || apellido.equals("") || dni.equals("") || fecha.equals("")){
+                JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+            }
+            else{
+                String sql = "INSERT INTO `alumno`(`nombre`, `apellido`, `dni`, `fecha_nacimiento`) VALUES ('" + nombre + "', '" + apellido + "', '" + dni + "', '" + fecha + "')";
+                st = conet.createStatement();
+                st.executeUpdate(sql);
+                JOptionPane.showMessageDialog(this, "Nuevo alumno registrado");
+                
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    } */
+   
     
+    void Actualizar(){
+    String nombre = jTFNombre.getText();
+    String apellido = jTFApellido.getText();
+    String dni = jTFDni.getText();
+    Date fechaNacimientoDate = jDFechaNac.getDate();
+
+    try {
+        if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+            // Convertir Date a LocalDate
+            LocalDate fechaNacimiento = fechaNacimientoDate.toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Obtener el ID del alumno seleccionado en la tabla
+            int fila = jTtablaAlumnos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
+                return;
+            }
+            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+
+            // Crear una instancia de Alumno con los valores actualizados
+            Alumno alumnoActualizado = new Alumno(id, nombre, apellido, dni, fechaNacimiento);
+
+            // Llamar al método actualizar de AlumnoData
+            alumnoData.actualizar(alumnoActualizado);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Alumno actualizado correctamente");
+
+
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al actualizar el alumno: " + ex.getMessage());
+    }
+    }
+    
+    void Borrar(){
+    String nombre = jTFNombre.getText();
+    String apellido = jTFApellido.getText();
+    String dni = jTFDni.getText();
+    Date fechaNacimientoDate = jDFechaNac.getDate();
+
+    try {
+        if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+            // Convertir Date a LocalDate
+            LocalDate fechaNacimiento = fechaNacimientoDate.toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Obtener el ID del alumno seleccionado en la tabla
+            int fila = jTtablaAlumnos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
+                return;
+            }
+            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+
+ 
+            alumnoData.borrar(id);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente");
+
+
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al eliminar el alumno: " + ex.getMessage());
+    } 
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBActualizar;
     private javax.swing.JButton jBBajaLogica;
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBInsertar;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

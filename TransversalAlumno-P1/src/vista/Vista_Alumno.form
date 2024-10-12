@@ -50,7 +50,7 @@
                           <Component id="jTFNombre" min="-2" pref="257" max="-2" attributes="0"/>
                           <Component id="jTFApellido" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                           <Component id="jTFDni" min="-2" pref="257" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
+                          <Component id="jDFechaNac" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -95,7 +95,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jDateChooser1" max="32767" attributes="0"/>
+                              <Component id="jDFechaNac" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -219,6 +219,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTtablaAlumnosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -261,7 +264,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTFDniActionPerformed"/>
       </Events>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="com.toedter.calendar.JDateChooser" name="jDFechaNac">
+      <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="y-MM-dd"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
