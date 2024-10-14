@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -34,6 +35,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     Statement st;
     ResultSet rs;
     int idA;
+    private ButtonGroup grupoEstado;
+
     AlumnoData alumnoData = new AlumnoData(con1);
 
     /**
@@ -46,6 +49,9 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         inicializarModelo();
         consultar();
         
+        grupoEstado = new ButtonGroup();
+        grupoEstado.add(jRAlta);
+        grupoEstado.add(jRBaja);
         
     }
         private void conectarBaseDeDatos() {
@@ -68,6 +74,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         modelo.addColumn("Apellido");
         modelo.addColumn("DNI");
         modelo.addColumn("Fecha de Nacimiento");
+        modelo.addColumn("activo");
         jTtablaAlumnos.setModel(modelo);
     }
 
@@ -84,7 +91,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jBInsertar = new javax.swing.JButton();
         jBBorrar = new javax.swing.JButton();
-        jBBajaLogica = new javax.swing.JButton();
         jBActualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTtablaAlumnos = new javax.swing.JTable();
@@ -97,6 +103,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jDFechaNac = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jBLimpiar = new javax.swing.JButton();
+        jRBaja = new javax.swing.JRadioButton();
+        jRAlta = new javax.swing.JRadioButton();
 
         jToolBar1.setRollover(true);
 
@@ -126,13 +134,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jBBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBBorrarActionPerformed(evt);
-            }
-        });
-
-        jBBajaLogica.setText("Baja/Alta Logica");
-        jBBajaLogica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBBajaLogicaActionPerformed(evt);
             }
         });
 
@@ -208,6 +209,20 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             }
         });
 
+        jRBaja.setText("Baja");
+        jRBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBajaActionPerformed(evt);
+            }
+        });
+
+        jRAlta.setText("Alta");
+        jRAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRAltaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -245,8 +260,10 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 .addComponent(jBActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(jBBajaLogica)
+                .addGap(20, 20, 20)
+                .addComponent(jRBaja)
+                .addGap(18, 18, 18)
+                .addComponent(jRAlta)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -272,17 +289,18 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                                .addGap(42, 42, 42))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBBajaLogica, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(77, 77, 77))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jBInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jBBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jBActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jRAlta)
+                                    .addComponent(jRBaja))
+                                .addGap(77, 77, 77))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jDFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                .addGap(162, 162, 162))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(134, 134, 134))))
@@ -300,10 +318,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         Borrar();
         consultar();
     }//GEN-LAST:event_jBBorrarActionPerformed
-
-    private void jBBajaLogicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBajaLogicaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBBajaLogicaActionPerformed
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
         Actualizar();
@@ -349,13 +363,47 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             jTFDni.setText("");
             jDFechaNac.setDate(null);
     }//GEN-LAST:event_jBLimpiarActionPerformed
+
+    private void jRBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBajaActionPerformed
+        int fila = jTtablaAlumnos.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de baja.");
+        return;
+    }
+    int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+    try {
+        alumnoData.bajaLogica(id);
+        JOptionPane.showMessageDialog(this, "Alumno dado de baja correctamente.");
+        consultar();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de baja el alumno: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jRBajaActionPerformed
+
+    private void jRAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRAltaActionPerformed
+       int fila = jTtablaAlumnos.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de alta.");
+        return;
+    }
+    int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+    try {
+        alumnoData.altaLogica(id);
+        JOptionPane.showMessageDialog(this, "Alumno dado de alta correctamente.");
+        consultar();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de alta el alumno: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jRAltaActionPerformed
     
     void consultar() {
         String sql = "SELECT * FROM alumno";
         try {
             st = conet.createStatement();
             rs = st.executeQuery(sql);
-            Object[] alumno = new Object[5];
+            Object[] alumno = new Object[6];
             modelo.setRowCount(0); // Limpiar la tabla
             while (rs.next()) {
                 alumno[0] = rs.getInt("id");
@@ -363,6 +411,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 alumno[2] = rs.getString("apellido");
                 alumno[3] = rs.getString("dni");
                 alumno[4] = rs.getDate("fecha_nacimiento").toLocalDate();
+                alumno[5] = rs.getBoolean("activo");
                 modelo.addRow(alumno);
             }
             jTtablaAlumnos.setModel(modelo);
@@ -375,6 +424,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     String apellido = jTFApellido.getText();
     String dni = jTFDni.getText();
     Date fechaNacimientoDate = jDFechaNac.getDate();
+    boolean activo = true;
 
     try {
         if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
@@ -386,7 +436,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
 
 
  
-            Alumno crearAlumno = new Alumno(nombre, apellido, dni, fechaNacimiento);
+            Alumno crearAlumno = new Alumno(nombre, apellido, dni, fechaNacimiento, activo);
             alumnoData.agregarAlumno(crearAlumno);
 
             // Mostrar mensaje de éxito
@@ -428,7 +478,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     String apellido = jTFApellido.getText();
     String dni = jTFDni.getText();
     Date fechaNacimientoDate = jDFechaNac.getDate();
-
+    boolean activo = true;
+    
     try {
         if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
             JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
@@ -446,7 +497,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
 
             // Crear una instancia de Alumno con los valores actualizados
-            Alumno alumnoActualizado = new Alumno(id, nombre, apellido, dni, fechaNacimiento);
+            Alumno alumnoActualizado = new Alumno(id, nombre, apellido, dni, fechaNacimiento, activo);
 
             // Llamar al método actualizar de AlumnoData
             alumnoData.actualizar(alumnoActualizado);
@@ -496,7 +547,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBActualizar;
-    private javax.swing.JButton jBBajaLogica;
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBInsertar;
     private javax.swing.JButton jBLimpiar;
@@ -506,6 +556,8 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRAlta;
+    private javax.swing.JRadioButton jRBaja;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFApellido;
     private javax.swing.JTextField jTFDni;

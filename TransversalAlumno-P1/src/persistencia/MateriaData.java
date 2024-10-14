@@ -39,10 +39,11 @@ public class MateriaData {
         }
     }
     public void actualizar(Materia materia) throws SQLException {
-        String sql = "UPDATE materia SET nombreMateria = ? WHERE id = ?";
+        String sql = "UPDATE materia SET nombreMateria = ?, estado = ? WHERE id = ?";
         try (PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setString(1, materia.getNombreMateria());
             statement.setInt(2, materia.getId_materia());
+            statement.setBoolean(3, materia.isEstado());
             statement.executeUpdate();
         }
     }
@@ -56,7 +57,8 @@ public class MateriaData {
 
             while (rs.next()) {
                 Materia materia = new Materia(
-                        rs.getString("nombreMateria")
+                        rs.getString("nombreMateria"),
+                        rs.getBoolean("estado")
                 );
                 materia.setId_materia(rs.getInt("id_materia"));
                 materias.add(materia);
@@ -66,5 +68,20 @@ public class MateriaData {
             System.out.println("Error al obtener materias: " + e.getMessage());
         }
         return materias;
+    }
+        public void bajaLogica(int id) throws SQLException {
+        String sql = "UPDATE alumno SET estado = 0 WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
+
+    public void altaLogica(int id) throws SQLException {
+        String sql = "UPDATE alumno SET estado = 1 WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
     }
 }

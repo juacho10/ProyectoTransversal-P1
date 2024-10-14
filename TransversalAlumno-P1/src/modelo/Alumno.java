@@ -8,31 +8,40 @@ public class Alumno {
     private String apellido;
     private String dni;
     private LocalDate fechaNacimiento;
-
-    public Alumno(int id, String nombre, String apellido, String dni, LocalDate fechaNacimiento) {
+    private boolean activo;
+    
+    public Alumno(int id, String nombre, String apellido, String dni, LocalDate fechaNacimiento, boolean activo) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
+        this.activo = activo;
     }
 
     
     
-    public Alumno(String nombre, String apellido, String dni, LocalDate fechaNacimiento) {
+    public Alumno(String nombre, String apellido, String dni, LocalDate fechaNacimiento, boolean activo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaNacimiento = fechaNacimiento;
+        this.activo = activo;
     }
 
     public Alumno() {
     }
     
-    
+    public boolean isActivo() { return activo; }    
 
     // Getters y setters
-    public int getId() { return id; }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public int getId() {
+        return id;
+    }
     public void setId(int id) { this.id = id; }
 
     public String getNombre() { return nombre; }

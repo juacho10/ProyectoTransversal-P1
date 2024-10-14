@@ -15,13 +15,14 @@ public class AlumnoData {
     }
 
     public void agregarAlumno(Alumno alumno) {
-        String sql = "INSERT INTO alumno (nombre, apellido, dni, fecha_nacimiento) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO alumno (nombre, apellido, dni, fecha_nacimiento, activo) VALUES (?, ?, ?, ?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, alumno.getNombre());
             ps.setString(2, alumno.getApellido());
             ps.setString(3, alumno.getDni());
             ps.setDate(4, Date.valueOf(alumno.getFechaNacimiento()));
+            ps.setBoolean(5, alumno.isActivo());
             ps.executeUpdate();
             
             ResultSet rs = ps.getGeneratedKeys();
@@ -46,7 +47,8 @@ public class AlumnoData {
                         rs.getString("nombre"),
                         rs.getString("apellido"),
                         rs.getString("dni"),
-                        rs.getDate("fecha_nacimiento").toLocalDate()
+                        rs.getDate("fecha_nacimiento").toLocalDate(),
+                        rs.getBoolean("activo")
                 );
                 alumno.setId(rs.getInt("id"));
                 alumnos.add(alumno);
@@ -72,6 +74,22 @@ public class AlumnoData {
             statement.setString(3, alumno.getDni());
             statement.setDate(4, java.sql.Date.valueOf(alumno.getFechaNacimiento()));
             statement.setInt(5, alumno.getId());
+            statement.setBoolean(6, alumno.isActivo());
+            statement.executeUpdate();
+        }
+    }
+    public void bajaLogica(int id) throws SQLException {
+        String sql = "UPDATE alumno SET activo = 0 WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
+
+    public void altaLogica(int id) throws SQLException {
+        String sql = "UPDATE alumno SET activo = 1 WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setInt(1, id);
             statement.executeUpdate();
         }
     }

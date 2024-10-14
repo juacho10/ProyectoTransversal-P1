@@ -10,8 +10,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import modelo.Materia;
+import persistencia.MateriaData;
 
 /**
  *
@@ -24,6 +28,8 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
     Statement st;
     ResultSet rs;
     int idc;
+    
+    MateriaData materiaData = new MateriaData(con1);
     /**
      * Creates new form Vista_Materia
      */
@@ -50,10 +56,8 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         private void inicializarModelo() {
         modelo = new DefaultTableModel();
         modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido");
-        modelo.addColumn("DNI");
-        modelo.addColumn("Fecha de Nacimiento");
+        modelo.addColumn("Materia");
+        modelo.addColumn("Estado");
         jTtablaMateria.setModel(modelo);
     }
     
@@ -71,7 +75,11 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         jBinsertar = new javax.swing.JButton();
         jBactualizar = new javax.swing.JButton();
         jBborrar = new javax.swing.JButton();
-        jBbajaLogica = new javax.swing.JButton();
+        jRAlta = new javax.swing.JRadioButton();
+        jRBaja = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTFMateria = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
         setMaximizable(true);
@@ -89,20 +97,42 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
                 "Id Materia", "Nombre Materia"
             }
         ));
+        jTtablaMateria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTtablaMateriaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTtablaMateria);
 
         jBinsertar.setText("Insertar");
+        jBinsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBinsertarActionPerformed(evt);
+            }
+        });
 
         jBactualizar.setText("Actualizar");
 
         jBborrar.setText("Borrar");
 
-        jBbajaLogica.setText("Baja/Alta Logica");
-        jBbajaLogica.addActionListener(new java.awt.event.ActionListener() {
+        jRAlta.setText("Alta");
+        jRAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBbajaLogicaActionPerformed(evt);
+                jRAltaActionPerformed(evt);
             }
         });
+
+        jRBaja.setText("Baja");
+        jRBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBajaActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Estado");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setText("Nombre Materia:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,62 +141,158 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBinsertar)
-                        .addGap(59, 59, 59)
-                        .addComponent(jBactualizar)
-                        .addGap(38, 38, 38)
-                        .addComponent(jBborrar)
-                        .addGap(53, 53, 53)
-                        .addComponent(jBbajaLogica)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jBinsertar))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(jBactualizar)
+                                .addGap(38, 38, 38)
+                                .addComponent(jBborrar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(25, 25, 25)
+                                .addComponent(jRBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(jTFMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(144, 144, 144))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(51, 51, 51)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBinsertar)
                     .addComponent(jBactualizar)
                     .addComponent(jBborrar)
-                    .addComponent(jBbajaLogica))
-                .addContainerGap())
+                    .addComponent(jRBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBbajaLogicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbajaLogicaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBbajaLogicaActionPerformed
+    private void jRAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRAltaActionPerformed
+        int fila = jTtablaMateria.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de baja.");
+        return;
+    }
+    int id = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
+    try {
+        materiaData.bajaLogica(id);
+        JOptionPane.showMessageDialog(this, "Alumno dado de baja correctamente.");
+        consultar();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de baja el alumno: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jRAltaActionPerformed
+
+    private void jRBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBajaActionPerformed
+         int fila = jTtablaMateria.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de alta.");
+        return;
+    }
+    int id = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
+    try {
+        materiaData.altaLogica(id);
+        JOptionPane.showMessageDialog(this, "Alumno dado de alta correctamente.");
+        consultar();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de alta el alumno: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jRBajaActionPerformed
+
+    private void jBinsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinsertarActionPerformed
+        Agregar1();
+        consultar();
+    }//GEN-LAST:event_jBinsertarActionPerformed
+
+    private void jTtablaMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTtablaMateriaMouseClicked
+        
+    }//GEN-LAST:event_jTtablaMateriaMouseClicked
     
     void consultar() {
         String sql = "SELECT * FROM materia";
         try {
             st = conet.createStatement();
             rs = st.executeQuery(sql);
-            Object[] alumno = new Object[2];
+            Object[] materia = new Object[3];
             modelo.setRowCount(0); // Limpiar la tabla
             while (rs.next()) {
-                alumno[0] = rs.getInt("id_materia");
-                alumno[1] = rs.getString("nombreMateria");
-                modelo.addRow(alumno);
+                materia[0] = rs.getInt("id_materia");
+                materia[1] = rs.getString("nombreMateria");
+                materia[2] = rs.getBoolean("estado");
+                modelo.addRow(materia);
             }
             jTtablaMateria.setModel(modelo);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+        void Agregar1(){
+    String materia = jTFMateria.getText();
+   
+    boolean activo = true;
+
+    try {
+        if (materia.equals("")) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+
+           Materia crearMateria = new Materia(materia, activo);
+           materiaData.agregarMateria(crearMateria);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Materia agregada correctamente");
+
+
+        }
+        } catch(Exception e){
+            e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al agregar la materia: " + e.getMessage());
+    } 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBactualizar;
-    private javax.swing.JButton jBbajaLogica;
     private javax.swing.JButton jBborrar;
     private javax.swing.JButton jBinsertar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton jRAlta;
+    private javax.swing.JRadioButton jRBaja;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTFMateria;
     private javax.swing.JTable jTtablaMateria;
     // End of variables declaration//GEN-END:variables
 }
