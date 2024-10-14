@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ButtonGroup;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +29,8 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
     Statement st;
     ResultSet rs;
-    int idc;
+    
+    private ButtonGroup grupoEstado;
     
     MateriaData materiaData = new MateriaData(con1);
     /**
@@ -38,6 +41,10 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         conectarBaseDeDatos();
         inicializarModelo();
         consultar();
+        
+        grupoEstado = new ButtonGroup();
+        grupoEstado.add(jRAlta);
+        grupoEstado.add(jRBaja);
     }
     
     private void conectarBaseDeDatos() {
@@ -57,7 +64,7 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Materia");
-        modelo.addColumn("Estado");
+        modelo.addColumn("estado");
         jTtablaMateria.setModel(modelo);
     }
     
@@ -88,13 +95,13 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
 
         jTtablaMateria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id Materia", "Nombre Materia"
+                "Id", "Materia", "Estado"
             }
         ));
         jTtablaMateria.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -112,8 +119,18 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         });
 
         jBactualizar.setText("Actualizar");
+        jBactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBactualizarActionPerformed(evt);
+            }
+        });
 
         jBborrar.setText("Borrar");
+        jBborrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBborrarActionPerformed(evt);
+            }
+        });
 
         jRAlta.setText("Alta");
         jRAlta.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +160,7 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(17, Short.MAX_VALUE))
+                        .addContainerGap(60, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -200,34 +217,34 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
     private void jRAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRAltaActionPerformed
         int fila = jTtablaMateria.getSelectedRow();
     if (fila == -1) {
-        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de baja.");
+        JOptionPane.showMessageDialog(this, "Seleccione una materia de la tabla para dar de alta.");
         return;
     }
     int id = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
     try {
-        materiaData.bajaLogica(id);
-        JOptionPane.showMessageDialog(this, "Alumno dado de baja correctamente.");
+        materiaData.altaLogica(id);
+        JOptionPane.showMessageDialog(this, "Materia dada de alta correctamente.");
         consultar();
     } catch (SQLException ex) {
         ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al dar de baja el alumno: " + ex.getMessage());
+        JOptionPane.showMessageDialog(this, "Error al dar de alta la materia: " + ex.getMessage());
     }
     }//GEN-LAST:event_jRAltaActionPerformed
 
     private void jRBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBajaActionPerformed
          int fila = jTtablaMateria.getSelectedRow();
     if (fila == -1) {
-        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de alta.");
+        JOptionPane.showMessageDialog(this, "Seleccione una materia de la tabla para dar de baja.");
         return;
     }
     int id = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
     try {
-        materiaData.altaLogica(id);
-        JOptionPane.showMessageDialog(this, "Alumno dado de alta correctamente.");
+        materiaData.bajaLogica(id);
+        JOptionPane.showMessageDialog(this, "Materia dada de baja correctamente.");
         consultar();
     } catch (SQLException ex) {
         ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al dar de alta el alumno: " + ex.getMessage());
+        JOptionPane.showMessageDialog(this, "Error al dar de baja la materia: " + ex.getMessage());
     }
     }//GEN-LAST:event_jRBajaActionPerformed
 
@@ -237,8 +254,32 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBinsertarActionPerformed
 
     private void jTtablaMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTtablaMateriaMouseClicked
-        
+       int fila = jTtablaMateria.getSelectedRow();
+    if (fila == -1) {
+    JOptionPane.showMessageDialog(this, "No se seleccionó una fila");
+    } else {
+    // Obtener los valores de la tabla
+    int idMateria = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
+    String nombreMateria = jTtablaMateria.getValueAt(fila, 1).toString();
+    boolean estado = Boolean.parseBoolean(jTtablaMateria.getValueAt(fila, 2).toString());
+
+    // Asignar los valores a los componentes correspondientes
+    jTFMateria.setText(nombreMateria);
+    
+
+}
+
     }//GEN-LAST:event_jTtablaMateriaMouseClicked
+
+    private void jBactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBactualizarActionPerformed
+        Actualizar();
+        consultar();
+    }//GEN-LAST:event_jBactualizarActionPerformed
+
+    private void jBborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBborrarActionPerformed
+        Borrar();
+        consultar();
+    }//GEN-LAST:event_jBborrarActionPerformed
     
     void consultar() {
         String sql = "SELECT * FROM materia";
@@ -259,10 +300,11 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         }
     }
     
-        void Agregar1(){
+    void Agregar1(){
+        
     String materia = jTFMateria.getText();
    
-    boolean activo = true;
+    boolean activo = false;
 
     try {
         if (materia.equals("")) {
@@ -280,6 +322,69 @@ public class Vista_Materia extends javax.swing.JInternalFrame {
         } catch(Exception e){
             e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error al agregar la materia: " + e.getMessage());
+    } 
+    }
+    
+        void Actualizar(){
+String nombreMateria = jTFMateria.getText();
+    boolean estado = true; // Supongamos que jCBEstado es un JCheckBox para el estado
+
+    try {
+        if (nombreMateria.equals("")) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+            // Obtener el ID de la materia seleccionada en la tabla
+            int fila = jTtablaMateria.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione una materia de la tabla para actualizar.");
+                return;
+            }
+            int idMateria = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
+
+            // Crear una instancia de Materia con los valores actualizados
+            Materia materiaActualizada = new Materia(idMateria, nombreMateria, estado);
+
+            // Llamar al método actualizar de MateriaData
+            materiaData.actualizar(materiaActualizada);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Materia actualizada correctamente");
+
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al actualizar la materia: " + ex.getMessage());
+    }
+        }
+        
+    void Borrar(){
+    String materia = jTFMateria.getText();
+    boolean estado = true;
+    
+
+    try {
+        if (materia.equals("")) {
+            JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
+        } else {
+            // Obtener el ID del alumno seleccionado en la tabla
+            int fila = jTtablaMateria.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione una materia de la tabla para borrar.");
+                return;
+            }
+            int id = Integer.parseInt(jTtablaMateria.getValueAt(fila, 0).toString());
+
+ 
+            materiaData.borrar(id);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Materia eliminada correctamente");
+
+
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al eliminar la materia: " + ex.getMessage());
     } 
     }
 

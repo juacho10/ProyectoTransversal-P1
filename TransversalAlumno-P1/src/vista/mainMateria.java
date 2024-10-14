@@ -11,7 +11,7 @@ public class mainMateria {
         conexion conexion = new conexion();
         MateriaData materiaData = new MateriaData(conexion);
         
-        Materia matematica = new Materia (1, "Matematicas");
+        Materia matematica = new Materia ("Fisica", true);
         materiaData.agregarMateria(matematica);
         
         

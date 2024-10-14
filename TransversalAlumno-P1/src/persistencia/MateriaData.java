@@ -32,21 +32,21 @@ public class MateriaData {
         }
     }
   public void borrar(int id) throws SQLException {
-        String sql = "DELETE FROM materia WHERE id = ?";
+        String sql = "DELETE FROM materia WHERE id_materia = ?";
         try (PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         }
     }
     public void actualizar(Materia materia) throws SQLException {
-        String sql = "UPDATE materia SET nombreMateria = ?, estado = ? WHERE id = ?";
-        try (PreparedStatement statement = con.prepareStatement(sql)) {
-            statement.setString(1, materia.getNombreMateria());
-            statement.setInt(2, materia.getId_materia());
-            statement.setBoolean(3, materia.isEstado());
-            statement.executeUpdate();
-        }
+    String sql = "UPDATE materia SET nombreMateria = ?, estado = ? WHERE id_materia = ?";
+    try (PreparedStatement statement = con.prepareStatement(sql)) {
+        statement.setString(1, materia.getNombreMateria());
+        statement.setBoolean(2, materia.isEstado());
+        statement.setInt(3, materia.getId_materia());
+        statement.executeUpdate();
     }
+}
     
     public List<Materia> obtenerMateria() {
         List<Materia> materias = new ArrayList<>();
@@ -70,7 +70,7 @@ public class MateriaData {
         return materias;
     }
         public void bajaLogica(int id) throws SQLException {
-        String sql = "UPDATE alumno SET estado = 0 WHERE id = ?";
+        String sql = "UPDATE materia SET estado = 0 WHERE id_materia = ?";
         try (PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -78,7 +78,7 @@ public class MateriaData {
     }
 
     public void altaLogica(int id) throws SQLException {
-        String sql = "UPDATE alumno SET estado = 1 WHERE id = ?";
+        String sql = "UPDATE materia SET estado = 1 WHERE id_materia = ?";
         try (PreparedStatement statement = con.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.executeUpdate();

@@ -526,7 +526,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             // Obtener el ID del alumno seleccionado en la tabla
             int fila = jTtablaAlumnos.getSelectedRow();
             if (fila == -1) {
-                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
+                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para eliminar.");
                 return;
             }
             int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
