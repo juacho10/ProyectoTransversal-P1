@@ -96,6 +96,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jTFDni = new javax.swing.JTextField();
         jDFechaNac = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
+        jBLimpiar = new javax.swing.JButton();
 
         jToolBar1.setRollover(true);
 
@@ -200,6 +201,13 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel4.setText("Fecha:");
 
+        jBLimpiar.setText("Limpiar");
+        jBLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -207,7 +215,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(116, 116, 116)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,11 +224,19 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTFApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jBLimpiar)))
+                                .addGap(11, 11, 11))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
@@ -241,14 +256,15 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
+                        .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTFNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                            .addComponent(jTFNombre)
+                            .addComponent(jBLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTFApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                            .addComponent(jTFApellido))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -256,7 +272,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jDFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                                 .addGap(42, 42, 42))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -326,6 +342,13 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             
         }
     }//GEN-LAST:event_jTtablaAlumnosMouseClicked
+
+    private void jBLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimpiarActionPerformed
+            jTFNombre.setText("");
+            jTFApellido.setText("");
+            jTFDni.setText("");
+            jDFechaNac.setDate(null);
+    }//GEN-LAST:event_jBLimpiarActionPerformed
     
     void consultar() {
         String sql = "SELECT * FROM alumno";
@@ -361,16 +384,9 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             LocalDate fechaNacimiento = fechaNacimientoDate.toInstant()
                     .atZone(ZoneId.systemDefault()).toLocalDate();
 
-            // Obtener el ID del alumno seleccionado en la tabla
-            int fila = jTtablaAlumnos.getSelectedRow();
-            if (fila == -1) {
-                JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
-                return;
-            }
-            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
 
  
-            Alumno crearAlumno = new Alumno(id, nombre, apellido, dni, fechaNacimiento);
+            Alumno crearAlumno = new Alumno(nombre, apellido, dni, fechaNacimiento);
             alumnoData.agregarAlumno(crearAlumno);
 
             // Mostrar mensaje de éxito
@@ -456,10 +472,6 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         if (nombre.equals("") || apellido.equals("") || dni.equals("") || fechaNacimientoDate == null) {
             JOptionPane.showMessageDialog(this, "Faltan datos en las casillas");
         } else {
-            // Convertir Date a LocalDate
-            LocalDate fechaNacimiento = fechaNacimientoDate.toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate();
-
             // Obtener el ID del alumno seleccionado en la tabla
             int fila = jTtablaAlumnos.getSelectedRow();
             if (fila == -1) {
@@ -487,6 +499,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBBajaLogica;
     private javax.swing.JButton jBBorrar;
     private javax.swing.JButton jBInsertar;
+    private javax.swing.JButton jBLimpiar;
     private com.toedter.calendar.JDateChooser jDFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -503,9 +516,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
      
    
  
-/*private void agregarAlumnoTabla(Alumno Alumno){
-        modelo.addRow(new Object[]{alumnoData.obtenerAlumnos()});
-    } */
+
 
 
 
