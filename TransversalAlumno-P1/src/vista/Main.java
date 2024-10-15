@@ -23,8 +23,8 @@ public class Main {
 
         
          //Mostrar todos los alumnos
-         Alumno nuevoAlumno = new Alumno("Juan", "Molina", "34485532", LocalDate.of(1989, 3, 20));
-        alumnoData.agregarAlumno(nuevoAlumno);
+        // Alumno nuevoAlumno = new Alumno("Juan", "Molina", "34485532", LocalDate.of(1989, 3, 20));
+       // alumnoData.agregarAlumno(nuevoAlumno);
          List<Alumno> alumnos = alumnoData.obtenerAlumnos();
         for (Alumno a : alumnos) {
             System.out.println(a);
@@ -35,8 +35,8 @@ public class Main {
         alumnoData.borrar(9);*/
         
         //Actualizamos el alumno de ID 4 (Michael Mayers) y le cambiamos el apellido
-        Alumno alumnoActualizado = new Alumno(8, "Gaston", "Jackson", "46626729", LocalDate.of(1989,3, 25));
-        alumnoData.actualizar(alumnoActualizado);
+       // Alumno alumnoActualizado = new Alumno(8, "Gaston", "Jackson", "46626729", LocalDate.of(1989,3, 25));
+       // alumnoData.actualizar(alumnoActualizado);
         
         System.out.println("-----------------------------");
         
