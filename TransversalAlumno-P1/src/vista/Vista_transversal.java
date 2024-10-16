@@ -86,7 +86,7 @@ public class Vista_transversal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMalumno);
 
-        jMinscripcion.setText("Inscriipcion");
+        jMinscripcion.setText("Inscripcion");
 
         jMCrearInscripcion.setText("Crear inscipcion");
         jMCrearInscripcion.addActionListener(new java.awt.event.ActionListener() {

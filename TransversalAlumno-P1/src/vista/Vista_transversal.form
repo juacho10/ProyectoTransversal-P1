@@ -39,7 +39,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMinscripcion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inscriipcion"/>
+            <Property name="text" type="java.lang.String" value="Inscripcion"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMCrearInscripcion">
