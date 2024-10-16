@@ -41,6 +41,8 @@ public class Vista_transversal extends javax.swing.JFrame {
         jMCargaMateria = new javax.swing.JMenuItem();
         jMalumno = new javax.swing.JMenu();
         jMCargaAlumno = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMinscripcion = new javax.swing.JMenu();
         jMCrearInscripcion = new javax.swing.JMenuItem();
 
@@ -83,6 +85,12 @@ public class Vista_transversal extends javax.swing.JFrame {
             }
         });
         jMalumno.add(jMCargaAlumno);
+
+        jMenuItem1.setText("Informacion Alumno");
+        jMalumno.add(jMenuItem1);
+
+        jMenuItem2.setText("Cargar notas");
+        jMalumno.add(jMenuItem2);
 
         jMenuBar1.add(jMalumno);
 
@@ -177,6 +185,8 @@ public class Vista_transversal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMCrearInscripcion;
     private javax.swing.JMenu jMalumno;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu jMinscripcion;
     private javax.swing.JMenu jMmateria;
     // End of variables declaration//GEN-END:variables
