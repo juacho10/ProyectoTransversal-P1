@@ -37,10 +37,12 @@ public class Vista_transversal extends javax.swing.JFrame {
 
         escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMalumno = new javax.swing.JMenu();
-        jMCargaAlumno = new javax.swing.JMenuItem();
         jMmateria = new javax.swing.JMenu();
         jMCargaMateria = new javax.swing.JMenuItem();
+        jMalumno = new javax.swing.JMenu();
+        jMCargaAlumno = new javax.swing.JMenuItem();
+        jMinscripcion = new javax.swing.JMenu();
+        jMCrearInscripcion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +56,18 @@ public class Vista_transversal extends javax.swing.JFrame {
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 586, Short.MAX_VALUE)
         );
+
+        jMmateria.setText("Materia");
+
+        jMCargaMateria.setText("Carga Materias");
+        jMCargaMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMCargaMateriaActionPerformed(evt);
+            }
+        });
+        jMmateria.add(jMCargaMateria);
+
+        jMenuBar1.add(jMmateria);
 
         jMalumno.setText("Alumno");
         jMalumno.addActionListener(new java.awt.event.ActionListener() {
@@ -72,17 +86,17 @@ public class Vista_transversal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMalumno);
 
-        jMmateria.setText("Materia");
+        jMinscripcion.setText("Inscriipcion");
 
-        jMCargaMateria.setText("Carga Materias");
-        jMCargaMateria.addActionListener(new java.awt.event.ActionListener() {
+        jMCrearInscripcion.setText("Crear inscipcion");
+        jMCrearInscripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMCargaMateriaActionPerformed(evt);
+                jMCrearInscripcionActionPerformed(evt);
             }
         });
-        jMmateria.add(jMCargaMateria);
+        jMinscripcion.add(jMCrearInscripcion);
 
-        jMenuBar1.add(jMmateria);
+        jMenuBar1.add(jMinscripcion);
 
         setJMenuBar(jMenuBar1);
 
@@ -116,6 +130,10 @@ public class Vista_transversal extends javax.swing.JFrame {
             escritorio.add(vistamateria);
             vistamateria.setVisible(true);
     }//GEN-LAST:event_jMCargaMateriaActionPerformed
+
+    private void jMCrearInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCrearInscripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMCrearInscripcionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,8 +174,10 @@ public class Vista_transversal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem jMCargaAlumno;
     private javax.swing.JMenuItem jMCargaMateria;
+    private javax.swing.JMenuItem jMCrearInscripcion;
     private javax.swing.JMenu jMalumno;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMinscripcion;
     private javax.swing.JMenu jMmateria;
     // End of variables declaration//GEN-END:variables
 

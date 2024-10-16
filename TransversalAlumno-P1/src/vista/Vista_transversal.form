@@ -4,6 +4,21 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMmateria">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Materia"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMCargaMateria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Carga Materias"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMCargaMateriaActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="jMalumno">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alumno"/>
@@ -22,17 +37,17 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMmateria">
+        <Menu class="javax.swing.JMenu" name="jMinscripcion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Materia"/>
+            <Property name="text" type="java.lang.String" value="Inscriipcion"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMCargaMateria">
+            <MenuItem class="javax.swing.JMenuItem" name="jMCrearInscripcion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Carga Materias"/>
+                <Property name="text" type="java.lang.String" value="Crear inscipcion"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMCargaMateriaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMCrearInscripcionActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

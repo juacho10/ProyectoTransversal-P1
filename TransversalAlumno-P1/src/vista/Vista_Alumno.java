@@ -69,7 +69,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
     }
         private void inicializarModelo() {
         modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
+        modelo.addColumn("Id_alumno");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
         modelo.addColumn("DNI");
@@ -370,9 +370,9 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de baja.");
         return;
     }
-    int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+    int id_alumno = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
     try {
-        alumnoData.bajaLogica(id);
+        alumnoData.bajaLogica(id_alumno);
         JOptionPane.showMessageDialog(this, "Alumno dado de baja correctamente.");
         consultar();
     } catch (SQLException ex) {
@@ -387,9 +387,9 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para dar de alta.");
         return;
     }
-    int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+    int id_alumno = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
     try {
-        alumnoData.altaLogica(id);
+        alumnoData.altaLogica(id_alumno);
         JOptionPane.showMessageDialog(this, "Alumno dado de alta correctamente.");
         consultar();
     } catch (SQLException ex) {
@@ -406,7 +406,7 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
             Object[] alumno = new Object[6];
             modelo.setRowCount(0); // Limpiar la tabla
             while (rs.next()) {
-                alumno[0] = rs.getInt("id");
+                alumno[0] = rs.getInt("id_alumno");
                 alumno[1] = rs.getString("nombre");
                 alumno[2] = rs.getString("apellido");
                 alumno[3] = rs.getString("dni");
@@ -494,10 +494,10 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar.");
                 return;
             }
-            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+            int id_alumno = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
 
             // Crear una instancia de Alumno con los valores actualizados
-            Alumno alumnoActualizado = new Alumno(id, nombre, apellido, dni, fechaNacimiento, activo);
+            Alumno alumnoActualizado = new Alumno(id_alumno, nombre, apellido, dni, fechaNacimiento, activo);
 
             // Llamar al método actualizar de AlumnoData
             alumnoData.actualizar(alumnoActualizado);
@@ -529,10 +529,10 @@ public class Vista_Alumno extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para eliminar.");
                 return;
             }
-            int id = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
+            int id_alumno = Integer.parseInt(jTtablaAlumnos.getValueAt(fila, 0).toString());
 
  
-            alumnoData.borrar(id);
+            alumnoData.borrar(id_alumno);
 
             // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente");

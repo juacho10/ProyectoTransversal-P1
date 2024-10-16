@@ -3,15 +3,15 @@ package modelo;
 import java.time.LocalDate;
 
 public class Alumno {
-    private int id;
+    private int id_alumno;
     private String nombre;
     private String apellido;
     private String dni;
     private LocalDate fechaNacimiento;
     private boolean activo;
     
-    public Alumno(int id, String nombre, String apellido, String dni, LocalDate fechaNacimiento, boolean activo) {
-        this.id = id;
+    public Alumno(int id_alumno, String nombre, String apellido, String dni, LocalDate fechaNacimiento, boolean activo) {
+        this.id_alumno = id_alumno;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -39,10 +39,10 @@ public class Alumno {
         this.activo = activo;
     }
 
-    public int getId() {
-        return id;
+    public int getId_alumno() {
+        return id_alumno;
     }
-    public void setId(int id) { this.id = id; }
+    public void setId_alumno(int id_alumno) { this.id_alumno = id_alumno; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -58,6 +58,8 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Alumno{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + '}';
+        return "Alumno{" + "id_alumno=" + id_alumno + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", activo=" + activo + '}';
     }
+
+
 }
