@@ -35,6 +35,10 @@ public class Vista_CargarNotas extends javax.swing.JInternalFrame {
         jBagregar = new javax.swing.JButton();
         jBactualizar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setText("Seleccion de Materias");
 

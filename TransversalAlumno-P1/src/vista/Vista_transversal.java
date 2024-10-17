@@ -41,8 +41,8 @@ public class Vista_transversal extends javax.swing.JFrame {
         jMCargaMateria = new javax.swing.JMenuItem();
         jMalumno = new javax.swing.JMenu();
         jMCargaAlumno = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMInformacionAlumno = new javax.swing.JMenuItem();
+        jMCargarNotas = new javax.swing.JMenuItem();
         jMinscripcion = new javax.swing.JMenu();
         jMCrearInscripcion = new javax.swing.JMenuItem();
 
@@ -86,11 +86,21 @@ public class Vista_transversal extends javax.swing.JFrame {
         });
         jMalumno.add(jMCargaAlumno);
 
-        jMenuItem1.setText("Informacion Alumno");
-        jMalumno.add(jMenuItem1);
+        jMInformacionAlumno.setText("Informacion Alumno");
+        jMInformacionAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMInformacionAlumnoActionPerformed(evt);
+            }
+        });
+        jMalumno.add(jMInformacionAlumno);
 
-        jMenuItem2.setText("Cargar notas");
-        jMalumno.add(jMenuItem2);
+        jMCargarNotas.setText("Cargar notas");
+        jMCargarNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMCargarNotasActionPerformed(evt);
+            }
+        });
+        jMalumno.add(jMCargarNotas);
 
         jMenuBar1.add(jMalumno);
 
@@ -128,20 +138,34 @@ public class Vista_transversal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMalumnoActionPerformed
 
     private void jMCargaAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCargaAlumnoActionPerformed
-        Vista_Alumno vistaalumno = new Vista_Alumno ();
+        Vista_Alumno vistaalumno = new Vista_Alumno();
             escritorio.add(vistaalumno);
             vistaalumno.setVisible(true);
     }//GEN-LAST:event_jMCargaAlumnoActionPerformed
 
     private void jMCargaMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCargaMateriaActionPerformed
-            Vista_Materia vistamateria = new Vista_Materia ();
+            Vista_Materia vistamateria = new Vista_Materia();
             escritorio.add(vistamateria);
             vistamateria.setVisible(true);
     }//GEN-LAST:event_jMCargaMateriaActionPerformed
 
     private void jMCrearInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCrearInscripcionActionPerformed
-        // TODO add your handling code here:
+        Vista_Inscripcion inscripcion = new Vista_Inscripcion();
+        escritorio.add(inscripcion);
+        inscripcion.setVisible(true);
     }//GEN-LAST:event_jMCrearInscripcionActionPerformed
+
+    private void jMInformacionAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMInformacionAlumnoActionPerformed
+        Vista_ListarInscripcion informacionAlumno = new Vista_ListarInscripcion();
+            escritorio.add(informacionAlumno);
+            informacionAlumno.setVisible(true);
+    }//GEN-LAST:event_jMInformacionAlumnoActionPerformed
+
+    private void jMCargarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCargarNotasActionPerformed
+        Vista_CargarNotas cargarNotas = new Vista_CargarNotas();
+        escritorio.add(cargarNotas);
+        cargarNotas.setVisible(true);
+    }//GEN-LAST:event_jMCargarNotasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,11 +206,11 @@ public class Vista_transversal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem jMCargaAlumno;
     private javax.swing.JMenuItem jMCargaMateria;
+    private javax.swing.JMenuItem jMCargarNotas;
     private javax.swing.JMenuItem jMCrearInscripcion;
+    private javax.swing.JMenuItem jMInformacionAlumno;
     private javax.swing.JMenu jMalumno;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu jMinscripcion;
     private javax.swing.JMenu jMmateria;
     // End of variables declaration//GEN-END:variables

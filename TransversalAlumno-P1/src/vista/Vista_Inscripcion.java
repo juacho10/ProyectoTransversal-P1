@@ -35,9 +35,9 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         JBInscribir = new javax.swing.JButton();
         JBAnular = new javax.swing.JButton();
 
+        setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setResizable(true);
 
         JComboMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 

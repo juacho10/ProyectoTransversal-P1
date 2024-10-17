@@ -32,6 +32,10 @@ public class Vista_ListarInscripcion extends javax.swing.JInternalFrame {
         jCElegirAlumno = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setText("Materias");
 
