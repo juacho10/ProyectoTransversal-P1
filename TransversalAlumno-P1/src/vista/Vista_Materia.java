@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package vista;
 
 import conexion.conexion;
@@ -10,19 +7,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.ButtonGroup;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Materia;
 import persistencia.MateriaData;
 
-/**
- *
- * @author Lenovo
- */
 public class Vista_Materia extends javax.swing.JInternalFrame {
     conexion con1 = new conexion();
     Connection conet;

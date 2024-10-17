@@ -21,7 +21,7 @@ public class mainInscripcion {
         inscripcionData.crearInscripcion(inscripcion1);
 */        
         
-        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripcion();
+        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripciones();
         for (Inscripcion m: inscripciones) {
             System.out.println(m);
         }
@@ -31,7 +31,7 @@ public class mainInscripcion {
         
         System.out.println("-----------------------------");
         System.out.println("");
-        List<Inscripcion> inscripciones1 = inscripcionData.obtenerInscripcion();
+        List<Inscripcion> inscripciones1 = inscripcionData.obtenerInscripciones();
         for (Inscripcion m: inscripciones1) {
             System.out.println(m);
         }

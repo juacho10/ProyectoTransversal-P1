@@ -7,6 +7,8 @@ public class Inscripcion {
     private int id_materia;
     private int id_alumno;
     private boolean bajaAlta = true;
+    private String alumnoNombre;
+    private String materiaNombre;
 
     public Inscripcion(int id_inscripcion, int id_materia, int id_alumno, boolean bajaAlta) {
         this.id_inscripcion = id_inscripcion;
@@ -27,6 +29,7 @@ public class Inscripcion {
     public Inscripcion(int id_materia, int id_alumno) {
         this.id_materia = id_materia;
         this.id_alumno = id_alumno;
+        this.bajaAlta = true;
     }
 
     
@@ -63,6 +66,23 @@ public class Inscripcion {
         this.bajaAlta = bajaAlta;
     }
 
+    public String getAlumnoNombre() {
+        return alumnoNombre;
+    }
+
+    public void setAlumnoNombre(String alumnoNombre) {
+        this.alumnoNombre = alumnoNombre;
+    }
+
+    public String getMateriaNombre() {
+        return materiaNombre;
+    }
+
+    public void setMateriaNombre(String materiaNombre) {
+        this.materiaNombre = materiaNombre;
+    }
+    
+    
     @Override
     public String toString() {
         return "Inscripcion{" + "id_inscripcion=" + id_inscripcion + ", id_materia=" + id_materia + ", id_alumno=" + id_alumno + ", bajaAlta=" + bajaAlta + '}';
