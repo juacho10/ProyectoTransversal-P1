@@ -6,9 +6,14 @@ package vista;
 
 import conexion.conexion;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import modelo.Alumno;
+import modelo.Inscripcion;
 import modelo.Materia;
 import persistencia.AlumnoData;
+import persistencia.InscripcionData;
 import persistencia.MateriaData;
 
 /**
@@ -17,6 +22,8 @@ import persistencia.MateriaData;
  */
 public class Vista_Inscripcion extends javax.swing.JInternalFrame {
 
+    DefaultTableModel modeloTabla = new DefaultTableModel();
+
     /**
      * Creates new form Vista_Inscripcion
      */
@@ -24,6 +31,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         initComponents();
         cargarMateriasEnComboBox();
         cargarAlumnosEnComboBox();
+        CargarTablaModel();
     }
 
     /**
@@ -45,7 +53,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         JBAnular = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTInscripcion = new javax.swing.JTable();
 
         setClosable(true);
 
@@ -91,7 +99,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Inscripciones");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTInscripcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -102,7 +110,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTInscripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,7 +177,40 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jRInscribirActionPerformed
 
     private void JBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBInscribirActionPerformed
-        // TODO add your handling code here:
+        // Obtener la materia seleccionada
+        Materia materiaSeleccionada = (Materia) JComboMateria.getSelectedItem();
+
+        // Obtener el alumno seleccionado
+        Alumno alumnoSeleccionado = (Alumno) JComboAlumno.getSelectedItem();
+
+        // Asegurarte de que ambos combobox tengan selecciones válidas
+        if (materiaSeleccionada != null && alumnoSeleccionado != null) {
+            conexion con = new conexion();
+            InscripcionData inscripcionData = new InscripcionData(con);
+
+            // Crear el objeto Inscripcion y asignarle los valores
+            Inscripcion inscripcion = new Inscripcion();
+            inscripcion.setId_materia(materiaSeleccionada.getId_materia());
+            inscripcion.setId_alumno(alumnoSeleccionado.getId_alumno());
+            
+
+            // Llamar al método para inscribir el alumno en la materia
+            inscripcionData.crearInscripcion(inscripcion);
+
+            // Agregar la inscripción a la tabla
+            Object[] fila = new Object[2]; // Tres columnas: Alumno, Materia, Estado
+            fila[0] = alumnoSeleccionado.getApellido() + ", " + alumnoSeleccionado.getNombre(); // Nombre completo del alumno
+            fila[1] = materiaSeleccionada.getNombreMateria(); // Nombre de la materia
+            
+
+            modeloTabla.addRow(fila); // Agregar la nueva fila a la tabla
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Inscripción realizada con éxito.");
+        } else {
+            // Mostrar mensaje de error
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un alumno y una materia.");
+        }
     }//GEN-LAST:event_JBInscribirActionPerformed
 
     private void JBAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAnularActionPerformed
@@ -177,25 +218,22 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JBAnularActionPerformed
 
     private void JComboMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboMateriaActionPerformed
-        
+
     }//GEN-LAST:event_JComboMateriaActionPerformed
 
-
     private void cargarMateriasEnComboBox() {
-        JComboMateria.removeAllItems();
-        
+        JComboMateria.removeAllItems(); // Limpiar los items antes de cargar
+
         conexion con = new conexion();
-        MateriaData materiaData = new MateriaData(con); // Aquí deberías pasar tu conexión correctamente
+        MateriaData materiaData = new MateriaData(con); // Instanciar correctamente
 
-        // Obtener la lista de materias desde la base de datos
-        List<Materia> materias = materiaData.obtenerMateria(); // No se puede llamar de forma estática, usamos la instancia
+        List<Materia> materias = materiaData.obtenerMateria(); // Obtener las materias desde la base de datos
 
-        // Agregar los nombres de las materias al JComboBox
         for (Materia materia : materias) {
-            JComboMateria.addItem(materia.getNombreMateria());
-        }
+        JComboMateria.addItem(materia.getNombreMateria());
     }
-    
+    }
+
     private void cargarAlumnosEnComboBox() {
         JComboAlumno.removeAllItems();
 
@@ -207,11 +245,22 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
 
         // Agregar los nombres de los alumnos al JComboBox
         for (Alumno alumno : alumnos) {
-            String item = alumno.getApellido() + ", " + alumno.getNombre() + " - DNI: " + alumno.getDni();
-            JComboAlumno.addItem(item);  // Aquí agregas el String concatenado
-        }
+        String item = alumno.getApellido() + ", " + alumno.getNombre() + " - DNI: " + alumno.getDni();
+        JComboAlumno.addItem(item);  // Aquí agregas el String concatenado
     }
-    
+    }
+
+    private void CargarTablaModel() {
+
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.addColumn("Alumno");
+        modeloTabla.addColumn("Materia");
+
+        // Asignar el modelo a la JTable
+        jTInscripcion.setModel(modeloTabla);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBAnular;
     private javax.swing.JButton JBInscribir;
@@ -223,6 +272,6 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRInscribir;
     private javax.swing.JRadioButton jRNoInscripto;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTInscripcion;
     // End of variables declaration//GEN-END:variables
 }

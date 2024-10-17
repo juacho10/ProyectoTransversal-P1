@@ -21,6 +21,16 @@ public class Inscripcion {
         this.bajaAlta = bajaAlta;
     }
 
+    public Inscripcion() {
+    }
+
+    public Inscripcion(int id_materia, int id_alumno) {
+        this.id_materia = id_materia;
+        this.id_alumno = id_alumno;
+    }
+
+    
+
     public int getId_inscripcion() {
         return id_inscripcion;
     }
