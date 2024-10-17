@@ -4,6 +4,11 @@
  */
 package vista;
 
+import conexion.conexion;
+import java.util.List;
+import modelo.Materia;
+import persistencia.MateriaData;
+
 /**
  *
  * @author Elco-chino
@@ -15,6 +20,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
      */
     public Vista_Inscripcion() {
         initComponents();
+        cargarMateriasEnComboBox();
     }
 
     /**
@@ -41,6 +47,11 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         setClosable(true);
 
         JComboMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JComboMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JComboMateriaActionPerformed(evt);
+            }
+        });
 
         JComboAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -161,7 +172,26 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_JBAnularActionPerformed
 
+    private void JComboMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboMateriaActionPerformed
+        
+    }//GEN-LAST:event_JComboMateriaActionPerformed
 
+
+    private void cargarMateriasEnComboBox() {
+        JComboMateria.removeAllItems();
+        
+        conexion con = new conexion();
+        MateriaData materiaData = new MateriaData(con); // Aquí deberías pasar tu conexión correctamente
+
+        // Obtener la lista de materias desde la base de datos
+        List<Materia> materias = materiaData.obtenerMateria(); // No se puede llamar de forma estática, usamos la instancia
+
+        // Agregar los nombres de las materias al JComboBox
+        for (Materia materia : materias) {
+            JComboMateria.addItem(materia.getNombreMateria());
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JBAnular;
     private javax.swing.JButton JBInscribir;
