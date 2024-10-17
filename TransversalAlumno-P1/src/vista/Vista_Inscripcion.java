@@ -6,7 +6,9 @@ package vista;
 
 import conexion.conexion;
 import java.util.List;
+import modelo.Alumno;
 import modelo.Materia;
+import persistencia.AlumnoData;
 import persistencia.MateriaData;
 
 /**
@@ -21,6 +23,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     public Vista_Inscripcion() {
         initComponents();
         cargarMateriasEnComboBox();
+        cargarAlumnosEnComboBox();
     }
 
     /**
@@ -111,24 +114,25 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JComboMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRInscribir)
+                            .addComponent(JBInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JComboMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jRInscribir)
-                                    .addComponent(JBInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(107, 107, 107)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(JComboAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(JBAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jRNoInscripto)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(jRNoInscripto))
+                                .addGap(66, 66, 66))
+                            .addComponent(JComboAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -189,6 +193,22 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         // Agregar los nombres de las materias al JComboBox
         for (Materia materia : materias) {
             JComboMateria.addItem(materia.getNombreMateria());
+        }
+    }
+    
+    private void cargarAlumnosEnComboBox() {
+        JComboAlumno.removeAllItems();
+
+        conexion con = new conexion();
+        AlumnoData alumnoData = new AlumnoData(con); // Asegúrate de pasar tu conexión correctamente
+
+        // Obtener la lista de alumnos desde la base de datos
+        List<Alumno> alumnos = alumnoData.obtenerAlumnos();
+
+        // Agregar los nombres de los alumnos al JComboBox
+        for (Alumno alumno : alumnos) {
+            String item = alumno.getApellido() + ", " + alumno.getNombre() + " - DNI: " + alumno.getDni();
+            JComboAlumno.addItem(item);  // Aquí agregas el String concatenado
         }
     }
     
