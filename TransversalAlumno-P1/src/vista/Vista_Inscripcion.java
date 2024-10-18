@@ -2,6 +2,7 @@
 package vista;
 
 import conexion.conexion;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -26,6 +27,9 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         grupoBajaAlta = new ButtonGroup();
         grupoBajaAlta.add(jRInscribir);
         grupoBajaAlta.add(jRNoInscripto);
+        jRInscribir.setEnabled(false);
+        jRNoInscripto.setEnabled(false);
+        JBAnular.setEnabled(false);
     }
     
     private ButtonGroup grupoBajaAlta;
@@ -99,6 +103,11 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTInscripcion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTInscripcionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTInscripcion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -202,12 +211,48 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_JBInscribirActionPerformed
 
     private void JBAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAnularActionPerformed
-        // TODO add your handling code here:
+      int fila = jTInscripcion.getSelectedRow(); // Obtener la fila seleccionada
+    
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "No se seleccionó una fila.");
+    } else {
+        // Obtener el ID de la inscripción de la fila seleccionada (ajusta si la columna cambia)
+        int idInscripcion = (int) jTInscripcion.getValueAt(fila, 0); // Asumiendo que la tercera columna es el ID
+        
+        // Cambiar el estado en la base de datos a inactivo (baja lógica)
+        conexion con = new conexion();
+        InscripcionData inscripcionData = new InscripcionData(con);
+        
+        try {
+            inscripcionData.bajaLogica(idInscripcion); // Llamar al método de baja lógica
+            
+            // Remover la fila de la tabla después de la baja lógica
+            modeloTabla.removeRow(fila);
+            
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "La inscripción ha sido anulada.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al anular la inscripción: " + e.getMessage());
+        }
+    }
     }//GEN-LAST:event_JBAnularActionPerformed
 
     private void JComboMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboMateriaActionPerformed
 
     }//GEN-LAST:event_JComboMateriaActionPerformed
+
+    private void jTInscripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTInscripcionMouseClicked
+        int fila = jTInscripcion.getSelectedRow();
+
+        if (fila == -1) {
+             JOptionPane.showMessageDialog(this, "No se seleccionó una fila");
+        } else {
+             // Habilitar los JRadioButtons cuando se selecciona una fila
+             jRInscribir.setEnabled(true);
+             jRNoInscripto.setEnabled(true);
+             JBAnular.setEnabled(true);
+        }
+    }//GEN-LAST:event_jTInscripcionMouseClicked
 
     private void cargarMateriasEnComboBox() {
         JComboMateria.removeAllItems();
