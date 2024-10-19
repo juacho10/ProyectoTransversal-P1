@@ -70,18 +70,18 @@ public class InscripcionData {
             }
     }
     
-    public void bajaLogica(int id) throws SQLException {
+    public void bajaLogica(int id_inscripcion) throws SQLException {
             String sql = "UPDATE inscripcion SET bajaAlta = 0 WHERE id_inscripcion = ?";
             try (PreparedStatement statement = con.prepareStatement(sql)) {
-                statement.setInt(1, id);
+                statement.setInt(1, id_inscripcion);
                 statement.executeUpdate();
             }
     }
 
-    public void altaLogica(int id) throws SQLException {
-            String sql = "UPDATE inscripcion SET bajaAlta = 1 WHERE id = ?";
+    public void altaLogica(int id_inscripcion) throws SQLException {
+            String sql = "UPDATE inscripcion SET bajaAlta = 1 WHERE id_inscripcion = ?";
             try (PreparedStatement statement = con.prepareStatement(sql)) {
-                statement.setInt(1, id);
+                statement.setInt(1, id_inscripcion);
                 statement.executeUpdate();
             }
     }

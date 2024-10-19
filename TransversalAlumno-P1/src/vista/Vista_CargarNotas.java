@@ -1,8 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package vista;
+
+import conexion.conexion;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.CargaNota;
+import modelo.Materia;
+import persistencia.CargaNotaData;
+import persistencia.MateriaData;
 
 /**
  *
@@ -10,13 +22,64 @@ package vista;
  */
 public class Vista_CargarNotas extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Vista_CargarNotas
-     */
+        conexion con1 = new conexion();
+        Connection conet;
+        DefaultTableModel modelo;
+
+        
+        CargaNotaData cargaNotaData = new CargaNotaData(conet);
+    
+    
+        
+    private void conectarBaseDeDatos() {
+    String url = "jdbc:mariadb://127.0.0.1:3306/transversalDB";
+    String user = "root";
+    String password = "";
+    try {
+        conet = DriverManager.getConnection(url, user, password);
+        System.out.println("Conexión a la base de datos exitosa!");
+         cargaNotaData = new CargaNotaData(conet); // Crear la instancia de CargaNotaData después de inicializar conet
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
+    }
+   }   
+        
+        
     public Vista_CargarNotas() {
         initComponents();
+        conectarBaseDeDatos();
+        inicializarModelo();
+        llenarComboBoxMaterias();
+        
+        
+        
+        
+        
+        
+        jCSeleccionMaterias.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jCSeleccionMateriasActionPerformed(evt);
+        }
+    });
+    if (jCSeleccionMaterias.getItemCount() > 0) {
+        jCSeleccionMaterias.setSelectedIndex(0); // Seleccionar el primer elemento por defecto */
+        consultarNotasPorMateria((String) jCSeleccionMaterias.getSelectedItem());
     }
-
+        consultarNotasPorMateria((String) jCSeleccionMaterias.getSelectedItem());
+    }
+    
+    
+ 
+        private void inicializarModelo() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Id_Nota");
+        modelo.addColumn("Id");
+        modelo.addColumn("Alumnos");
+        modelo.addColumn("Notas");
+        jTAlumnosYnotas.setModel(modelo);
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,11 +126,15 @@ public class Vista_CargarNotas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTAlumnosYnotas);
 
         jCSeleccionMaterias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCSeleccionMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCSeleccionMateriasActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Cargar nota");
 
-        jTIngresarNotas.setText("Ingresar nota");
         jTIngresarNotas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTIngresarNotasActionPerformed(evt);
@@ -75,6 +142,11 @@ public class Vista_CargarNotas extends javax.swing.JInternalFrame {
         });
 
         jBagregar.setText("Agregar");
+        jBagregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBagregarActionPerformed(evt);
+            }
+        });
 
         jBactualizar.setText("Actualizar");
         jBactualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -134,13 +206,156 @@ public class Vista_CargarNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTIngresarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTIngresarNotasActionPerformed
-        // TODO add your handling code here:
+
+    String notaStr = jTIngresarNotas.getText();
+
+    // Validamos que sea un número válido
+    try {
+        double nota = Double.parseDouble(notaStr);
+
+        // Opcional: Validamos que la nota esté dentro de un rango aceptable (por ejemplo, 0 a 10)
+        if (nota < 0 || nota > 10) {
+            JOptionPane.showMessageDialog(this, "La nota debe estar entre 0 y 10");
+            return;
+        }
+
+        // Aquí puedes realizar cualquier acción adicional que necesites, como actualizar la base de datos
+        // o llamar a otro método
+        JOptionPane.showMessageDialog(this, "Nota ingresada correctamente: " + nota);
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido");
+    }
     }//GEN-LAST:event_jTIngresarNotasActionPerformed
 
     private void jBactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBactualizarActionPerformed
-        // TODO add your handling code here:
+    String notaStr = jTIngresarNotas.getText();
+    int fila = jTAlumnosYnotas.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para actualizar la nota.");
+    } else {
+        try {
+            double nota = Double.parseDouble(notaStr);
+            int idNota = Integer.parseInt(jTAlumnosYnotas.getValueAt(fila, 0).toString());
+
+            CargaNota notaActualizada = new CargaNota(idNota, 0, nota);  // idInscripcion no cambia aquí
+            cargaNotaData.actualizarNota(notaActualizada);
+            JOptionPane.showMessageDialog(this, "Nota actualizada correctamente");
+
+            // Actualizar la tabla
+            consultarNotasPorMateria((String) jCSeleccionMaterias.getSelectedItem());
+        } catch (NumberFormatException | SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al actualizar la nota: " + ex.getMessage());
+        }
+    }
     }//GEN-LAST:event_jBactualizarActionPerformed
 
+    private void jBagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBagregarActionPerformed
+    String notaStr = jTIngresarNotas.getText();
+    int fila = jTAlumnosYnotas.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un alumno de la tabla para agregar una nota.");
+    } else {
+        try {
+            double nota = Double.parseDouble(notaStr);
+            int idInscripcion = Integer.parseInt(jTAlumnosYnotas.getValueAt(fila, 1).toString());
+            Object idNotaObj = jTAlumnosYnotas.getValueAt(fila, 0);
+
+            // Verificar si ya existe una nota para este id_inscripcion
+            if (idNotaObj != null && !idNotaObj.toString().equals("Sin nota")) {
+                JOptionPane.showMessageDialog(this, "El alumno ya tiene una nota asignada.");
+                return;
+            }
+
+            // Crear una nueva nota y agregarla utilizando CargaNotaData
+            CargaNota nuevaNota = new CargaNota(0, idInscripcion, nota);
+            cargaNotaData.agregarNota(nuevaNota);
+            JOptionPane.showMessageDialog(this, "Nota agregada correctamente");
+
+            // Actualizar la tabla
+            consultarNotasPorMateria((String) jCSeleccionMaterias.getSelectedItem());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al agregar la nota: " + ex.getMessage());
+        }
+    }
+    }//GEN-LAST:event_jBagregarActionPerformed
+
+    private void jCSeleccionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCSeleccionMateriasActionPerformed
+         String materiaSeleccionada = (String) jCSeleccionMaterias.getSelectedItem();
+         consultarNotasPorMateria(materiaSeleccionada);
+    }//GEN-LAST:event_jCSeleccionMateriasActionPerformed
+
+public String obtenerNombreAlumno(int idInscripcion) {
+    String sql = "SELECT alumno.nombre " +
+                 "FROM inscripcion " +
+                 "JOIN alumno ON inscripcion.id_alumno = alumno.id_alumno " +
+                 "WHERE inscripcion.id_inscripcion = ?";
+    try (PreparedStatement statement = conet.prepareStatement(sql)) {
+        statement.setInt(1, idInscripcion);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("nombre");
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return null;
+}
+
+private void consultarNotasPorMateria(String nombreMateria) {
+    String sql = "SELECT carga_nota.id AS id_nota, inscripcion.id_inscripcion, alumno.nombre, carga_nota.nota " +
+                 "FROM inscripcion " +
+                 "JOIN alumno ON inscripcion.id_alumno = alumno.id_alumno " +
+                 "JOIN materia ON inscripcion.id_materia = materia.id_materia " +
+                 "LEFT JOIN carga_nota ON inscripcion.id_inscripcion = carga_nota.id_inscripcion " +
+                 "WHERE materia.nombreMateria = ?";
+    try {
+        modelo.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
+        PreparedStatement statement = conet.prepareStatement(sql);
+        statement.setString(1, nombreMateria);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Object[] fila = new Object[4];
+            fila[0] = resultSet.getObject("id_nota") != null ? resultSet.getInt("id_nota") : "Sin nota";
+            fila[1] = resultSet.getInt("id_inscripcion");
+            fila[2] = resultSet.getString("nombre");
+            fila[3] = resultSet.getObject("nota") != null ? resultSet.getDouble("nota") : "Sin nota";
+            modelo.addRow(fila);
+        }
+        jTAlumnosYnotas.setModel(modelo);
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    } 
+}
+    
+
+
+
+
+    private void llenarComboBoxMaterias() {
+        MateriaData materiaData = new MateriaData(con1);
+    try {
+        List<Materia> materias = materiaData.obtenerMateria();
+        jCSeleccionMaterias.removeAllItems(); // Limpiar los items actuales
+        for (Materia materia : materias) {
+            jCSeleccionMaterias.addItem(materia.getNombreMateria());
+        }
+    } catch (Exception e) {
+            e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al cargar las materias: " + e.getMessage());
+    }
+}
+    
+
+
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBactualizar;

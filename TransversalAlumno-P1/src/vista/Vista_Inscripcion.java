@@ -73,6 +73,11 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
         });
 
         jRNoInscripto.setText("No inscripto");
+        jRNoInscripto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRNoInscriptoActionPerformed(evt);
+            }
+        });
 
         JBInscribir.setText("Inscribir");
         JBInscribir.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +176,23 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRInscribirActionPerformed
-        // TODO add your handling code here:
+        conexion con = new conexion();
+        InscripcionData inscripcionData = new InscripcionData(con);
+        
+    int fila = jTInscripcion.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione una inscripción de la tabla para dar de alta.");
+        return;
+    }
+    int id = Integer.parseInt(jTInscripcion.getValueAt(fila, 0).toString());
+    try {
+        inscripcionData.altaLogica(id);
+        JOptionPane.showMessageDialog(this, "inscripción dada de alta correctamente.");
+        actualizarTabla();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de alta la inscripción: " + ex.getMessage());
+    }
     }//GEN-LAST:event_jRInscribirActionPerformed
 
     private void JBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBInscribirActionPerformed
@@ -253,6 +274,26 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
              JBAnular.setEnabled(true);
         }
     }//GEN-LAST:event_jTInscripcionMouseClicked
+
+    private void jRNoInscriptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRNoInscriptoActionPerformed
+        conexion con = new conexion();
+        InscripcionData inscripcionData = new InscripcionData(con);
+        
+    int fila = jTInscripcion.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione una inscripción de la tabla para dar de baja.");
+        return;
+    }
+    int id = Integer.parseInt(jTInscripcion.getValueAt(fila, 0).toString());
+    try {
+        inscripcionData.bajaLogica(id);
+        JOptionPane.showMessageDialog(this, "inscripción dada de baja correctamente.");
+        actualizarTabla();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al dar de alta la inscripción: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jRNoInscriptoActionPerformed
 
     private void cargarMateriasEnComboBox() {
         JComboMateria.removeAllItems();
