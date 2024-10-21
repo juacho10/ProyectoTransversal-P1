@@ -314,7 +314,7 @@ private void consultarNotasPorMateria(String nombreMateria) {
                  "JOIN alumno ON inscripcion.id_alumno = alumno.id_alumno " +
                  "JOIN materia ON inscripcion.id_materia = materia.id_materia " +
                  "LEFT JOIN carga_nota ON inscripcion.id_inscripcion = carga_nota.id_inscripcion " +
-                 "WHERE materia.nombreMateria = ?";
+                 "WHERE bajaAlta>=1 and materia.nombreMateria = ?";
     try {
         modelo.setRowCount(0); // Limpiar la tabla antes de agregar nuevos datos
         PreparedStatement statement = conet.prepareStatement(sql);

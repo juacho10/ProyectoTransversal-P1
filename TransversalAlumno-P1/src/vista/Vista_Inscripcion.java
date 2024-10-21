@@ -207,7 +207,7 @@ public class Vista_Inscripcion extends javax.swing.JInternalFrame {
             inscripcion.setId_materia(materiaSeleccionada.getId_materia());
             inscripcion.setId_alumno(alumnoSeleccionado.getId_alumno());
             inscripcion.setBajaAlta(true);
-
+            
             inscripcionData.crearInscripcion(inscripcion);
 
             // Limpiar la tabla antes de cargar los nuevos datos
